@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+    <CodeSnippet Format="1.0.0">
+        <Header>
+            <Title>Program Builder</Title>
+            <Shortcut>programservice</Shortcut>
+            <Description>Registers a scoped service in the DI container.</Description>
+            <Author>Your Name</Author>
+            <SnippetTypes>
+                <SnippetType>Expansion</SnippetType>
+            </SnippetTypes>
+        </Header>
+        <Snippet>
+        <Declarations>
+            <Literal>
+                <ID>interface</ID>
+                <ToolTip>Service interface name</ToolTip>
+                <Default>IYourService</Default>
+            </Literal>
+            <Literal>
+                <ID>impl</ID>
+                <ToolTip>Service implementation class name</ToolTip>
+                <Default>YourService</Default>
+            </Literal>
+        </Declarations>
+            <Code Language="CSharp">
+                <![CDATA[
+builder.Services.AddScoped<$interface$, $impl$>();
+                ]]>
+            </Code>
+        </Snippet>
+    </CodeSnippet>
+</CodeSnippets>

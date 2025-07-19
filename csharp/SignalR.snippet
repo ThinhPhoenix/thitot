@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+    <CodeSnippet Format="1.0.0">
+        <Header>
+            <Title>DAO Dropdown List</Title>
+            <Shortcut>signalr</Shortcut>
+            <Description>Generates a method to get a dropdown list from SystemAccounts.</Description>
+            <Author>Your Name</Author>
+            <SnippetTypes>
+                <SnippetType>Expansion</SnippetType>
+            </SnippetTypes>
+        </Header>
+        <Snippet>
+            <Code Language="CSharp">
+                <![CDATA[
+//OPEN RAZOR PROJECT -> ADD CLIENTSIDE LIB -> JSDELIVR -> microsoft/signalr choose 2 js
+
+//ADD TO INDEX WHERE RELOAD PAGE
+@section Scripts {
+    <script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
+    <script>
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/sinalRHub")
+            .build();
+
+        connection.on("Change", function () {
+            location.reload();
+        });
+
+        connection.start().catch(function (err) {
+            console.error(err.toString());
+        });
+    </script>
+}
+
+//MAKE A FOLDER AT PAGES (./Pages/Hubs/SignalRHub.cs)
+
+using Microsoft.AspNetCore.SignalR;
+using System.Threading.Tasks;
+
+namespace PharmaceuticalManagement_LaiChiThinh.Hubs
+{
+    public class SignalRHub : Hub
+    {
+        public async Task NotifyChange()
+        {
+            await Clients.All.SendAsync("Change");
+        }
+    }
+}
+
+//PROGRAM.CS
+builder.Services.AddSignalR();
+app.MapHub<SignalRHub>("/sinalRHub");
+
+//CALL SIGNALR
+private readonly IHubContext<SignalRHub> _hubContext;
+await _hubContext.Clients.All.SendAsync("Change");
+                ]]>
+            </Code>
+        </Snippet>
+    </CodeSnippet>
+</CodeSnippets>

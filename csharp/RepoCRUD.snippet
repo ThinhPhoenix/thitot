@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Repo crud</Title>
+      <Author>Claude</Author>
+      <Description>repo crud</Description>
+      <Shortcut>repocrud</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+    <Literal>
+      <ID>entity</ID>
+      <ToolTip>Entity class name</ToolTip>
+      <Default>Entity</Default>
+    </Literal>
+    <Literal>
+      <ID>entities</ID>
+      <ToolTip>DbSet property name (plural)</ToolTip>
+      <Default>Entities</Default>
+    </Literal>
+  </Declarations>
+      <Code Language="csharp">
+        <![CDATA[public List<$entity$> GetAll()
+{
+    return _dbContext.$entities$.ToList();
+}
+public void Create($entity$ entity)
+{
+    _dbContext.$entities$.Add(entity);
+    _dbContext.SaveChanges();
+}
+public void Update($entity$ entity)
+{
+    _dbContext.ChangeTracker.Clear();
+    var tracker = _dbContext.Attach(entity);
+    tracker.State = EntityState.Modified;
+    _dbContext.SaveChanges();
+}
+public bool Remove($entity$ entity)
+{
+    _dbContext.$entities$.Remove(entity);
+    _dbContext.SaveChanges();
+    return true;
+}
+public $entity$ GetById(int id)
+{
+    return _dbContext.$entities$.Find(id);
+}
+public $entity$ GetById(string code)
+{
+    return _dbContext.$entities$.Find(code);
+}
+public $entity$ GetById(Guid code)
+{
+    return _dbContext.$entities$.Find(code);
+}
+        ]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

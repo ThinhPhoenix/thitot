@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Repo crud async</Title>
+      <Author>Claude</Author>
+      <Description>repo crud async</Description>
+      <Shortcut>repocrudasync</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+    <Literal>
+      <ID>entity</ID>
+      <ToolTip>Entity class name</ToolTip>
+      <Default>Entity</Default>
+    </Literal>
+    <Literal>
+      <ID>entities</ID>
+      <ToolTip>DbSet property name (plural)</ToolTip>
+      <Default>Entities</Default>
+    </Literal>
+  </Declarations>
+      <Code Language="csharp">
+        <![CDATA[
+public async Task<List<$entity$>> GetAllAsync()
+{
+    // Custom implementation
+    return await _dbContext.$entities$.ToListAsync();
+}
+public async Task<int> CreateAsync($entity$ entity)
+{
+    // Custom implementation
+    _dbContext.$entities$.Add(entity);
+    return await _dbContext.SaveChangesAsync();
+}
+public async Task<int> UpdateAsync($entity$ entity)
+{
+    // Custom implementation
+    _dbContext.ChangeTracker.Clear();
+    var tracker = _dbContext.Attach(entity);
+    tracker.State = EntityState.Modified;
+    return await _dbContext.SaveChangesAsync();
+}
+public async Task<bool> RemoveAsync($entity$ entity)
+{
+    // Custom implementation
+    _dbContext.$entities$.Remove(entity);
+    await _dbContext.SaveChangesAsync();
+    return true;
+}
+public async Task<$entity$> GetByIdAsync(int id)
+{
+    // Custom implementation
+    return await _dbContext.$entities$.FindAsync(id);
+}
+public async Task<$entity$> GetByIdAsync(string code)
+{
+    // Custom implementation
+    return await _dbContext.$entities$.FindAsync(code);
+}
+public async Task<$entity$> GetByIdAsync(Guid code)
+{
+    // Custom implementation
+    return await _dbContext.$entities$.FindAsync(code);
+}
+        ]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

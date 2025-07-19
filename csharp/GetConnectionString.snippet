@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Get Connection String from appsettings.json</Title>
+      <Shortcut>getconnstr</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="csharp"><![CDATA[#region GetConnectionString()
+/*
+1. Nuget install
+```bash
+dotnet add package Microsoft.Extensions.Configuration --version 5.0.0
+dotnet add package Microsoft.Extensions.Configuration.Json --version 5.0.0
+```
+
+2. Edit OnConfiguring method
+```csharp
+protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    => optionsBuilder.UseSqlServer(GetConnectionString());
+```
+
+3. Edit appsettings.json
+```json
+"ConnectionStrings": {
+    "DBConnString": "Server=(local);Uid=sa;Pwd=12345;Database=YOUR_DB_NAME;TrustServerCertificate=True"
+}
+```
+*/
+$accessModifier$ String GetConnectionString()
+{
+    IConfiguration config = new ConfigurationBuilder()
+        .SetBasePath(Directory.GetCurrentDirectory())
+        .AddJsonFile("appsettings.json", true, true)
+        .Build();
+    return config.GetConnectionString("DBConnString");
+}
+#endregion]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

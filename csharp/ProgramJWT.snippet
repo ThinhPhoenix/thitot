@@ -1,0 +1,59 @@
+<CodeSnippet Format="1.0.0">
+  <Header>
+    <Title>programjwt</Title>
+    <Shortcut>programjwt</Shortcut>
+    <Description>Insert JWT program code snippet</Description>
+    <Author>YourName</Author>
+  </Header>
+  <Snippet>
+    <Code Language="csharp"><![CDATA[
+//!JWT
+// ```dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer --version 8.0.1```
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
+        };
+    });
+
+//!JWT Swagger
+builder.Services.AddSwaggerGen(option =>
+{
+    
+    option.DescribeAllParametersInCamelCase();
+    option.ResolveConflictingActions(conf => conf.First());
+    option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please enter a valid token",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "Bearer"
+    });
+    option.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type=ReferenceType.SecurityScheme,
+                    Id="Bearer"
+                }
+            },
+            new string[]{}
+        }
+    });
+});
+    ]]></Code>
+  </Snippet>
+</CodeSnippet>

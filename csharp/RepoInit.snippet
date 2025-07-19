@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>DAO Init with DbContext</Title>
+      <Author>Claude</Author>
+      <Description>Initializes a DAO class with a specific DbContext</Description>
+      <Shortcut>repoinit</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>dbcontext</ID>
+          <ToolTip>DbContext class name</ToolTip>
+          <Default>YourDbContext</Default>
+        </Literal>
+        <Literal>
+          <ID>daoclass</ID>
+          <ToolTip>DAO class name</ToolTip>
+          <Default>YourClass</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp">
+        <![CDATA[private $dbcontext$ _dbContext;
+        private static $daoclass$ instance;
+        
+        public $daoclass$()
+        {
+            _dbContext = new $dbcontext$();
+        }
+        
+        public static $daoclass$ Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new $daoclass$();
+                }
+                return instance;
+            }
+        }]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

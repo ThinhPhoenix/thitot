@@ -1,0 +1,31 @@
+<CodeSnippet Format="1.0.0">
+  <Header>
+    <Title>programjsonignored</Title>
+    <Shortcut>programodata</Shortcut>
+    <Description>Insert JSON ignored program code snippet</Description>
+    <Author>YourName</Author>
+  </Header>
+  <Snippet>
+  <Declarations>
+        <Literal>
+          <ID>entity</ID>
+          <ToolTip>DbContext class name</ToolTip>
+          <Default>YourEntity</Default>
+        </Literal>
+      </Declarations>
+    <Code Language="csharp"><![CDATA[
+//!Odata
+static IEdmModel GetEdmModel()
+{
+    var odataBuilder = new ODataConventionModelBuilder();
+    odataBuilder.EntitySet<$entity$>("$entity$");
+    return odataBuilder.GetEdmModel();
+}
+builder.Services.AddControllers().AddOData(options =>
+{
+    options.Select().Filter().OrderBy().Expand().SetMaxTop(null).Count();
+    options.AddRouteComponents("odata", GetEdmModel());
+});
+    ]]></Code>
+  </Snippet>
+</CodeSnippet>

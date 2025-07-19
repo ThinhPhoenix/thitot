@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>DAO Init with DbContext</Title>
+      <Author>Claude</Author>
+      <Description>Initializes a DAO class with a specific DbContext</Description>
+      <Shortcut>reposearchpaging</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="csharp">
+        <![CDATA[public async Task<List<Handbag>> SearchAsync(string? modelName, decimal? price, DateOnly? releaseDate)
+        {
+            var query = _dbContext.Handbags.Include(o => o.Brand).AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(modelName) && modelName != "%20")
+                query = query.Where(h => h.ModelName.Contains(modelName));
+
+            if (price.HasValue)
+                query = query.Where(h => h.Price == price.Value);
+
+            if (releaseDate.HasValue)
+                query = query.Where(h => h.ReleaseDate == releaseDate.Value);
+
+            return await query.ToListAsync();
+        }
+
+        public class PagedResult<T>
+        {
+            public List<T> Items { get; set; } = new();
+            public int CurrentPage { get; set; }
+            public int TotalPages { get; set; }
+            public int TotalItems { get; set; }
+        }
+
+        public async Task<PagedResult<Handbag>> SearchPagingAsync(string? modelName, decimal? price, DateOnly? releaseDate, int pageNumber, int pageSize)
+        {
+            var query = _dbContext.Handbags.Include(o => o.Brand).AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(modelName) && modelName != "%20")
+                query = query.Where(h => h.ModelName.Contains(modelName));
+
+            if (price.HasValue)
+                query = query.Where(h => h.Price == price.Value);
+
+            if (releaseDate.HasValue)
+                query = query.Where(h => h.ReleaseDate == releaseDate.Value);
+
+            int totalItems = await query.CountAsync();
+            int totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            var items = await query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+
+            return new PagedResult<Handbag>
+            {
+                Items = items,
+                CurrentPage = pageNumber,
+                TotalPages = totalPages,
+                TotalItems = totalItems
+            };
+        }
+
+        public async Task<PagedResult<Handbag>> PagingAsync(int pageNumber, int pageSize)
+        {
+            var query = _dbContext.Handbags.Include(o => o.Brand).AsQueryable();
+            int totalItems = await query.CountAsync();
+            int totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            var items = await query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+
+            return new PagedResult<Handbag>
+            {
+                Items = items,
+                CurrentPage = pageNumber,
+                TotalPages = totalPages,
+                TotalItems = totalItems
+            };
+        }]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

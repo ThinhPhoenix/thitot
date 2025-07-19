@@ -1,0 +1,78 @@
+<CodeSnippet Format="1.0.0">
+  <Header>
+    <Title>programjsonignored</Title>
+    <Shortcut>controllerauth</Shortcut>
+    <Description>Insert JSON ignored program code snippet</Description>
+    <Author>YourName</Author>
+  </Header>
+  <Snippet>
+
+    <Code Language="csharp"><![CDATA[
+//! appsettings.json
+//"Jwt": {
+//    "Key": "0ccfeb299b126a479a64630e2d34e9e91e5fcbcaea8ac9e3347e224b0557a53e",
+//    "Issuer": "https://localhost:7777",
+//    "Audience": "https://localhost:7777"
+//}
+[Route("api/auth")]
+[ApiController]
+public class SystemAccountsController : ControllerBase
+{
+    private readonly IConfiguration _config;
+    private readonly ISystemAccountService _service;
+
+    public class AuthRes()
+    {
+        public string Token { get; set; }
+        public string Role { get; set; }
+    }
+
+    public SystemAccountsController(IConfiguration config, ISystemAccountService service)
+    {
+        _config = config;
+        _service = service;
+    }
+
+    [HttpPost]
+    public IActionResult Login([FromBody] LoginRq request)
+    {
+        var user = _service.GetAccount(request.Email, request.Password);
+
+        if (user == null || user.Result == null)
+            return Unauthorized();
+
+        var token = GenerateJSONWebToken(user.Result);
+
+        return Ok(new AuthRes
+        {
+            Token = token,
+            Role = user.Result.Role.ToString()
+        });
+    }
+
+    private string GenerateJSONWebToken(SystemAccount account)
+    {
+        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+        var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+        var token = new JwtSecurityToken(_config["Jwt:Issuer"]
+                , _config["Jwt:Audience"]
+                , new Claim[]
+                {
+            new(ClaimTypes.Name, account.Username),
+            new(ClaimTypes.Role, account.Role.ToString()),
+                },
+                expires: DateTime.Now.AddMinutes(120),
+                signingCredentials: credentials
+            );
+
+        var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+
+        return tokenString;
+    }
+
+    public sealed record LoginRq(string Email, string Password);
+}
+    ]]></Code>
+  </Snippet>
+</CodeSnippet>

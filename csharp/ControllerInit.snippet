@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>DAO Init with DbContext</Title>
+      <Author>Claude</Author>
+      <Description>Initializes a DAO class with a specific DbContext</Description>
+      <Shortcut>controllerinit</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>interface</ID>
+          <ToolTip>DbContext class name</ToolTip>
+          <Default>YourService</Default>
+        </Literal>
+        <Literal>
+          <ID>param</ID>
+          <ToolTip>DAO class name</ToolTip>
+          <Default>yourService</Default>
+        </Literal>
+        <Literal>
+        <ID>classname</ID>
+        <ToolTip>Controller class name</ToolTip>
+        <Default>EntitysController</Default>
+      </Literal>
+      </Declarations>
+      <Code Language="csharp">
+        <![CDATA[private readonly I$interface$ _$param$;
+public $classname$()
+{
+    _$param$ = new $interface$();
+}]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

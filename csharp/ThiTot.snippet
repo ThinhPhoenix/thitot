@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Pagination Implementation</Title>
+      <Author>GitHub Copilot</Author>
+      <Description>Adds pagination logic to a Razor Page</Description>
+      <Shortcut>thitot</Shortcut>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+    </Header>
+    <Snippet>
+      <Code Language="CSharp">
+        <![CDATA[/*
+- Repository Project
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 8.0.2
+dotnet add package Microsoft.EntityFrameworkCore.Design --version 8.0.2
+dotnet add package Microsoft.EntityFrameworkCore.Tools --version 8.0.2
+
+dotnet add package Microsoft.Extensions.Configuration --version 8.0.0
+dotnet add package Microsoft.Extensions.Configuration.Json --version 8.0.0
+
+<ItemGroup>
+  <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.2">
+    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    <PrivateAssets>all</PrivateAssets>
+  </PackageReference>
+  <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.2" />
+  <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.2">
+    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    <PrivateAssets>all</PrivateAssets>
+  </PackageReference>
+  <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+  <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
+</ItemGroup>
+
+- Controller Project
+dotnet add package Microsoft.AspNetCore.OData
+dotnet add package  Microsoft.AspNetCore.Authentication.JwtBearer --version 8.0.10
+
+<ItemGroup>
+  <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.1" />
+  <PackageReference Include="Microsoft.AspNetCore.OData" Version="8.2.5" />
+  <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+</ItemGroup>
+
+- Install dotnet-ef for CLI
+dotnet tool install --global dotnet-ef --version 5.0.17
+
+- Use Entity Framework Core to generate Object Model from existing database – CLI
+dotnet ef dbcontext scaffold "Server=(local);Uid=sa;Pwd=12345;Database=CandidateManagement;TrustServerCertificate=True" Microsoft.EntityFrameworkCore.SqlServer --output-dir ./
+- OR generate in Models folders (DO NOT CREATE FOLDER ./Models AFTER RUN THIS COMMAND IT WILL AUTO GENERATE FOLDER)
+dotnet ef dbcontext scaffold "Server=(local);Uid=sa;Pwd=12345;Database=CandidateManagement;TrustServerCertificate=True" Microsoft.EntityFrameworkCore.SqlServer --output-dir ./Models
+
+- Generate database from domain classes– CLI.
+dotnet ef migrations  add "InitialDB" 
+dotnet ef database update
+
+Entity Framework Core
+- Use Entity Framework Core to generate Object Model from existing database – Package Manager Console
+Scaffold-DbContext "Server=(local);Database=Fall24PharmaceuticalDB;Uid=sa;Pwd=1234567890;TrustServerCertificate=True" Microsoft.EntityFrameworkCore.SqlServer -OutputDir ./
+
+- Generate database from domain classes – Package Manager Console
+Add-Migration  "InitialDB" 
+Update-Database -verbose
+*/]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

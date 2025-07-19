@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>DAO Init with DbContext</Title>
+      <Author>Claude</Author>
+      <Description>Initializes a DAO class with a specific DbContext</Description>
+      <Shortcut>repoinstance</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>dbcontext</ID>
+          <ToolTip>DbContext class name</ToolTip>
+          <Default>YourDbContext</Default>
+        </Literal>
+        <Literal>
+          <ID>daoclass</ID>
+          <ToolTip>DAO class name</ToolTip>
+          <Default>YourClass</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp">
+        <![CDATA[[Authorize]
+[EnableQuery]
+[HttpGet("search")]
+public async Task<IActionResult> GetOData()
+{
+    var handbags = await _handbagService.GetAllAsync();
+    return Ok(handbags.AsQueryable());
+}]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

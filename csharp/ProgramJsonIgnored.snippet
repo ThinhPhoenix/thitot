@@ -1,0 +1,18 @@
+<CodeSnippet Format="1.0.0">
+  <Header>
+    <Title>programjsonignored</Title>
+    <Shortcut>programjsonignored</Shortcut>
+    <Description>Insert JSON ignored program code snippet</Description>
+    <Author>YourName</Author>
+  </Header>
+  <Snippet>
+    <Code Language="csharp"><![CDATA[
+//!JsonIgnored
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.Never;
+});
+    ]]></Code>
+  </Snippet>
+</CodeSnippet>
